@@ -1,6 +1,7 @@
 package com.example.mindmaster;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -26,7 +28,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     private float circleY = 0;
 
+
+
+
     public GameView(Context context) {
+
         super(context);
         setFocusable(true);
         if(surfaceHolder == null) {
@@ -50,6 +56,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         this.setZOrderOnTop(true);
 
         this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+
+        DisplayMetrics disp = new DisplayMetrics();
+
 
     }
 
@@ -86,21 +95,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     }
 
+    public Bitmap scaleIt(Bitmap bit){
+        Bitmap bm;
+        float scale = (float)bit.getHeight()/getHeight();
+        int newWidth = Math.round(bit.getWidth()/(scale*10));
+        int newHeight = Math.round(bit.getHeight()/(scale*10));
+        return Bitmap.createScaledBitmap(bit, newWidth, newHeight, true);
+    }
     public void drawIcons(Canvas canvas){
 
 
         Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
+
+
         float scale = (float)background.getHeight()/(float)getHeight();
         int newWidth = Math.round(background.getWidth()/(scale*10));
         int newHeight = Math.round(background.getHeight()/(scale*10));
-        Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
+       Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
+        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)4,(float)background.getHeight()/(float)2,null);
 
-        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)10,(float)background.getHeight()/(float)1.2,null);
+
+        canvas.drawBitmap(scaled, Resources.getSystem().getDisplayMetrics().widthPixels-newWidth,
+                Resources.getSystem().getDisplayMetrics().heightPixels-newHeight, null);
+
+
+        System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
+        System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
     }
 
-    public void scaleImage(){
-
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
