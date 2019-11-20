@@ -130,7 +130,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         float areaWidth;
         float areaHeight;
-        Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
+        //Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
+
+        Bitmap core = BitmapFactory.decodeResource(getResources(), R.drawable.core);
+        core = scaleIt(core);
+
+        Bitmap acads = BitmapFactory.decodeResource(getResources(), R.drawable.acads);
+        acads = scaleIt(acads);
+
+        Bitmap hrd = BitmapFactory.decodeResource(getResources(), R.drawable.hrd);
+        hrd = scaleIt(hrd);
+
+        Bitmap rnd = BitmapFactory.decodeResource(getResources(), R.drawable.rnd);
+        rnd = scaleIt(rnd);
+
+        Bitmap tnd = BitmapFactory.decodeResource(getResources(), R.drawable.tnd);
+        tnd = scaleIt(tnd);
+
+        Bitmap corpo = BitmapFactory.decodeResource(getResources(), R.drawable.corpo);
+        corpo = scaleIt(corpo);
+
+        Bitmap publications = BitmapFactory.decodeResource(getResources(), R.drawable.publications);
+        publications = scaleIt(publications);
+
+        Bitmap pubs = BitmapFactory.decodeResource(getResources(), R.drawable.pubs);
+        pubs = scaleIt(pubs);
+
+        Bitmap univrel = BitmapFactory.decodeResource(getResources(), R.drawable.univrel);
+        univrel = scaleIt(univrel);
 
         Bitmap socio = BitmapFactory.decodeResource(getResources(), R.drawable.socio);
         socio = scaleIt(socio);
