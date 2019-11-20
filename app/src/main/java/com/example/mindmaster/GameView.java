@@ -66,6 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = surfaceHolder.lockCanvas();
         drawBack(canvas);
+        drawRect(canvas);
         drawIcons(canvas);
 
         surfaceHolder.unlockCanvasAndPost(canvas);
@@ -95,11 +96,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
     }
 
+    public void drawRect(Canvas canvas){
+
+        Paint myPaint = new Paint();
+        myPaint.setColor(Color.WHITE);
+        myPaint.setStyle(Paint.Style.FILL);
+        myPaint.setStrokeWidth(10);
+        myPaint.setAlpha(100);
+
+        canvas.drawRect(0, Resources.getSystem().getDisplayMetrics().heightPixels - (AppConstants.SCREEN_WIDTH/4*3) - 80,
+                Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, myPaint);
+
+//        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+//        float scale = (float)background.getHeight()/(float)getHeight();
+//        int newWidth = Math.round(background.getWidth()/scale);
+//        int newHeight = Math.round(background.getHeight()/scale);
+//        Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
+//
+//        canvas.drawBitmap(scaled,0,0,null);
+
+    }
+
     public Bitmap scaleIt(Bitmap bit){
         Bitmap bm;
         float scale = (float)bit.getHeight()/getHeight();
-        int newWidth = Math.round(bit.getWidth()/(scale*10));
-        int newHeight = Math.round(bit.getHeight()/(scale*10));
+//        int newWidth = Math.round(bit.getWidth()/(scale*10));
+//        int newHeight = Math.round(bit.getHeight()/(scale*10));
+        int newWidth = AppConstants.SCREEN_WIDTH / 4;
+        int newHeight = newWidth;
         return Bitmap.createScaledBitmap(bit, newWidth, newHeight, true);
     }
     public void drawIcons(Canvas canvas){
@@ -108,7 +132,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         float areaHeight;
         Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
 
-        Bitmap scam = scaleIt(background);
+        Bitmap socio = BitmapFactory.decodeResource(getResources(), R.drawable.socio);
+        socio = scaleIt(socio);
+
+        Bitmap docu = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
+        docu = scaleIt(docu);
+
+        Bitmap fin = BitmapFactory.decodeResource(getResources(), R.drawable.finance);
+        fin = scaleIt(fin);
 
 //        float scale = (float)background.getHeight()/(float)getHeight();
 //        int newWidth = Math.round(background.getWidth()/(scale*10));
@@ -117,8 +148,41 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 //        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)4,(float)background.getHeight()/(float)2,null);
 
         //places the thing on the bottom right corner of the screen
-        canvas.drawBitmap(scam, Resources.getSystem().getDisplayMetrics().widthPixels-scam.getWidth(),
-                Resources.getSystem().getDisplayMetrics().heightPixels-scam.getHeight(), null);
+        canvas.drawBitmap(core, 0,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(core.getHeight()*3) - 60, null);
+
+        canvas.drawBitmap(acads, acads.getWidth(),
+                Resources.getSystem().getDisplayMetrics().heightPixels-(acads.getHeight()*3) - 60, null);
+
+        canvas.drawBitmap(hrd, hrd.getWidth()*2,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(hrd.getHeight()*3) - 60, null);
+
+        canvas.drawBitmap(rnd, rnd.getWidth()*3,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(rnd.getHeight()*3) - 60, null);
+
+        canvas.drawBitmap(tnd, 0,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(tnd.getHeight()*2) - 40, null);
+
+        canvas.drawBitmap(corpo, corpo.getWidth(),
+                Resources.getSystem().getDisplayMetrics().heightPixels-(corpo.getHeight()*2) - 40, null);
+
+        canvas.drawBitmap(publications, publications.getWidth()*2,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(publications.getHeight()*2) - 40, null);
+
+        canvas.drawBitmap(pubs, pubs.getWidth()*3,
+                Resources.getSystem().getDisplayMetrics().heightPixels-(pubs.getHeight()*2) - 40, null);
+
+        canvas.drawBitmap(univrel, 0,
+                Resources.getSystem().getDisplayMetrics().heightPixels-univrel.getHeight() - 20, null);
+
+        canvas.drawBitmap(socio, socio.getWidth(),
+                Resources.getSystem().getDisplayMetrics().heightPixels-socio.getHeight() - 20, null);
+
+        canvas.drawBitmap(docu, docu.getWidth()*2,
+                Resources.getSystem().getDisplayMetrics().heightPixels-docu.getHeight() - 20, null);
+
+        canvas.drawBitmap(fin, fin.getWidth()*3,
+                Resources.getSystem().getDisplayMetrics().heightPixels-fin.getHeight() - 20, null);
 
 
        // System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
