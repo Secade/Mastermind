@@ -24,8 +24,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/logo"
         android:layout_marginTop="150dp"
-        android:background="@drawable/start"/>
-<!--        android:onClick="startGame"/>-->
+        android:background="@drawable/start"
+        android:onClick="startGame"/>
 
 <!--    <TextView-->
 <!--        android:id="@+id/textView"-->

@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 public class AppConstants {
 
-    static BitmapBank bitmapBank; // Bitmap object reference
+    static BitmapBank bitmapBank; // Bitmap object re ference
     static int SCREEN_WIDTH, SCREEN_HEIGHT;
     static int numberOfCommittees;
     static Context gameActivityContext;
