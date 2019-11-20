@@ -11,14 +11,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        AppConstants.initialization(this.getApplicationContext());
+        AppConstants.initialization(this.getApplicationContext());
         getSupportActionBar().hide();
     }
 
     public void startGame(View view){
         //Log.i("ImageButton","clicked");
-//        Intent intent = new Intent(this, GameActivity.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(this, GameActivity.class);
+        startActivity(intent);
+       finish();
     }
 }
