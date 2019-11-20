@@ -107,16 +107,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
         Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
 
+        Bitmap scam = scaleIt(background);
 
-        float scale = (float)background.getHeight()/(float)getHeight();
-        int newWidth = Math.round(background.getWidth()/(scale*10));
-        int newHeight = Math.round(background.getHeight()/(scale*10));
-       Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
-        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)4,(float)background.getHeight()/(float)2,null);
+//        float scale = (float)background.getHeight()/(float)getHeight();
+//        int newWidth = Math.round(background.getWidth()/(scale*10));
+//        int newHeight = Math.round(background.getHeight()/(scale*10));
+//       Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
+//        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)4,(float)background.getHeight()/(float)2,null);
 
-
-        canvas.drawBitmap(scaled, Resources.getSystem().getDisplayMetrics().widthPixels-newWidth,
-                Resources.getSystem().getDisplayMetrics().heightPixels-newHeight, null);
+        //places the thing on the bottom right corner of the screen
+        canvas.drawBitmap(scam, Resources.getSystem().getDisplayMetrics().widthPixels-scam.getWidth(),
+                Resources.getSystem().getDisplayMetrics().heightPixels-scam.getHeight(), null);
 
 
         System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
