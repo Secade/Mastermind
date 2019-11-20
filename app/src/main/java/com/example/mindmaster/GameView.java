@@ -104,7 +104,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     }
     public void drawIcons(Canvas canvas){
 
-
+        float areaWidth;
+        float areaHeight;
         Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.docu);
 
         Bitmap scam = scaleIt(background);
@@ -120,8 +121,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                 Resources.getSystem().getDisplayMetrics().heightPixels-scam.getHeight(), null);
 
 
-        System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
-        System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
+       // System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
+      //  System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
     }
 
 
