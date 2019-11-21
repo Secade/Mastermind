@@ -65,7 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = surfaceHolder.lockCanvas();
-        drawBack(canvas);
+//        drawBack(canvas);
         drawRect(canvas);
         drawIcons(canvas);
 
@@ -104,8 +104,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
         myPaint.setStrokeWidth(10);
         myPaint.setAlpha(100);
 
-        canvas.drawRect(0, Resources.getSystem().getDisplayMetrics().heightPixels - (AppConstants.SCREEN_WIDTH/4*3) - 80,
-                Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, myPaint);
+//        canvas.drawRect(0, Resources.getSystem().getDisplayMetrics().heightPixels - (AppConstants.SCREEN_WIDTH/4*3) - 80,
+//                Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, myPaint);
+
+        canvas.drawRect(0,0, AppConstants.SCREEN_WIDTH/2, AppConstants.SCREEN_HEIGHT/2, myPaint);
 
 //        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.background);
 //        float scale = (float)background.getHeight()/(float)getHeight();
@@ -175,8 +177,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 //        canvas.drawBitmap(scaled,(float)background.getWidth()/(float)4,(float)background.getHeight()/(float)2,null);
 
         //places the thing on the bottom right corner of the screen
+
         canvas.drawBitmap(core, 0,
-                Resources.getSystem().getDisplayMetrics().heightPixels-(core.getHeight()*3) - 60, null);
+                0, null);
+
+//        canvas.drawBitmap(core, 0,
+//                Resources.getSystem().getDisplayMetrics().heightPixels-(core.getHeight()*3) - 60, null);
 
         canvas.drawBitmap(acads, acads.getWidth(),
                 Resources.getSystem().getDisplayMetrics().heightPixels-(acads.getHeight()*3) - 60, null);
