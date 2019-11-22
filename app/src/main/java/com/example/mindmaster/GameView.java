@@ -11,6 +11,7 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -37,6 +38,10 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
     Bitmap mDrawBitmap;
     Canvas mBitmapCanvas;
     Paint mDrawPaint = new Paint();
+
+    public int getMyHeight(){
+        return height;
+    }
 
 
 
@@ -66,7 +71,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 //        this.setBackgroundResource(R.drawable.background);
 
         // Set current surfaceview at top of the view tree.
-        this.setZOrderOnTop(true);
+//        this.setZOrderOnTop(true);
         this.setZOrderMediaOverlay(true);
 
         this.getHolder().setFormat(PixelFormat.TRANSPARENT);
@@ -79,14 +84,42 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //        super.onMeasure(widthMeasureSpec, measureHeight(heightMeasureSpec));
+//        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height + 1, MeasureSpec.UNSPECIFIED);
         setMeasuredDimension(widthMeasureSpec,
                 measureHeight(heightMeasureSpec));
+//        int desiredWidth = getSuggestedMinimumWidth() + getPaddingLeft() + getPaddingRight() + 1;
+//        int desiredHeight = getSuggestedMinimumHeight() + getPaddingTop() + getPaddingBottom() + 1;
+
+//        setMeasuredDimension(measureDimension(desiredWidth, widthMeasureSpec),
+//                measureDimension(desiredHeight, heightMeasureSpec));
+//        setMeasuredDimension(getMeasuredWidth()+1,
+//                getMeasuredHeight()+1);
+    }
+
+    private int measureDimension(int desiredSize, int measureSpec) {
+        int result;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else {
+            result = desiredSize;
+            if (specMode == MeasureSpec.AT_MOST) {
+                result = Math.min(result, specSize);
+            }
+        }
+
+        if (result < desiredSize){
+            Log.e("ChartView", "The view is too small, the content might get cut");
+        }
+        return result;
     }
 
     private int measureHeight(int measureSpec) {
         int result = 0;
         //This is because of background image in relativeLayout, which is 1000*1000px
-        measureSpec = 2620;
+        measureSpec = 8100;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
@@ -267,8 +300,11 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
+        if(height >= 8100)
+            height = 0;
+
         if (mDrawBitmap == null) {
-            mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            mDrawBitmap = Bitmap.createBitmap(getWidth(), 8100, Bitmap.Config.ARGB_8888);
             mBitmapCanvas = new Canvas(mDrawBitmap);
         }
 
@@ -276,7 +312,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
         myPaint.setColor(Color.WHITE);
         myPaint.setStyle(Paint.Style.FILL);
         myPaint.setStrokeWidth(10);
-        myPaint.setAlpha(200);
+//        myPaint.setAlpha(200);
 
         mBitmapCanvas.drawRect(0,height, AppConstants.SCREEN_WIDTH, height + AppConstants.SCREEN_WIDTH/4 + 20 + 100 + 10 + 100 + 30, myPaint);
 
@@ -327,7 +363,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
         height += (AppConstants.SCREEN_WIDTH/4 + 20);
 
         Paint scorePaint = new Paint();
-        scorePaint.setColor(Color.WHITE);
+        scorePaint.setColor(Color.DKGRAY);
         scorePaint.setTextSize(100);
         scorePaint.setTextAlign(Paint.Align.CENTER);
         mBitmapCanvas.drawText("Correct Answer: " + correct, AppConstants.SCREEN_WIDTH/2, height + 100, scorePaint);
@@ -353,6 +389,8 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
         surfaceHolder.unlockCanvasAndPost(canvas);
         invalidate();
+        requestLayout();
+        Log.d("hello", "Hello " + height);
     }
 
 

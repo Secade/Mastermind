@@ -1,5 +1,6 @@
 package com.example.mindmaster;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     private Spinner first, second, third, fourth;
     private ArrayList<Integer> random;
     private int attempt;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
         BackgroundView backgroundView = new BackgroundView(this);
         frameLayout.addView(backgroundView);
 
-        ScrollView scrollView = new ScrollView(this);
+        scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        scrollView.setBackgroundColor(Color.GREEN);
         scrollView.setFillViewport(true);
@@ -80,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
 //        scrollView.addView(container);
 
         gameView = new GameView(this);
-//        gameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        gameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        gameView.setZOrderOnTop(true);
 //        gameView.getHolder().setFixedSize(AppConstants.SCREEN_HEIGHT/4*3, AppConstants.SCREEN_WIDTH);
 //        gameView.getHolder().setSizeFromLayout();
@@ -327,6 +329,13 @@ public class GameActivity extends AppCompatActivity {
             finish();
         }
         else{
+            if(gameView.getMyHeight() >= 8100 || gameView.getMyHeight() == 0){
+//                scrollView.smoothScrollTo(0,0);
+                ObjectAnimator.ofInt(scrollView, "scrollY",  0).setDuration(500).start();
+            } else {
+//                scrollView.smoothScrollTo(0, gameView.getMyHeight());
+                ObjectAnimator.ofInt(scrollView, "scrollY",  gameView.getMyHeight()).setDuration(500).start();
+            }
             gameView.drawCode(correct, wp, guess);
         }
     }
