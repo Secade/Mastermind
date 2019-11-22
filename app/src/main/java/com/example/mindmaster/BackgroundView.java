@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GameView extends SurfaceView implements View.OnTouchListener, SurfaceHolder.Callback{
+public class BackgroundView extends SurfaceView implements View.OnTouchListener, SurfaceHolder.Callback{
 
     private SurfaceHolder surfaceHolder = null;
 
@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
 
 
-    public GameView(Context context) {
+    public BackgroundView(Context context) {
 
         super(context);
         setFocusable(true);
@@ -58,7 +58,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
         // Set current surfaceview at top of the view tree.
 //        this.setZOrderOnTop(true);
-        this.setZOrderMediaOverlay(true);
+//        this.setZOrderMediaOverlay(true);
 
         this.getHolder().setFormat(PixelFormat.TRANSPARENT);
 
@@ -93,9 +93,9 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = surfaceHolder.lockCanvas();
 //        canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
-//        drawBack(canvas);
-        drawRect(canvas);
-        drawIcons(canvas);
+        drawBack(canvas);
+//        drawRect(canvas);
+//        drawIcons(canvas);
 
         surfaceHolder.unlockCanvasAndPost(canvas);
 
@@ -116,8 +116,10 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
         Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         float scale = (float)background.getHeight()/(float)getHeight();
-        int newWidth = Math.round(background.getWidth()/scale);
-        int newHeight = Math.round(background.getHeight()/scale);
+//        int newWidth = Math.round(background.getWidth()/scale);
+        int newWidth = AppConstants.SCREEN_WIDTH;
+//        int newHeight = Math.round(background.getHeight()/scale);
+        int newHeight = AppConstants.SCREEN_HEIGHT;
         Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
 
         canvas.drawBitmap(scaled,0,0,null);
@@ -246,8 +248,8 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
                 Resources.getSystem().getDisplayMetrics().heightPixels+fin.getHeight() + 20, null);
 
 
-       // System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
-      //  System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
+        // System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
+        //  System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
     }
 
 

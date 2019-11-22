@@ -11,6 +11,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -41,16 +42,31 @@ public class GameActivity extends AppCompatActivity {
         main.setWeightSum(4);
         main.setBackgroundResource(R.drawable.background);
 
+        FrameLayout frameLayout = new FrameLayout(this);
+        frameLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        main.addView(frameLayout);
+
+        BackgroundView backgroundView = new BackgroundView(this);
+        frameLayout.addView(backgroundView);
+
         ScrollView scrollView = new ScrollView(this);
-        scrollView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        scrollView.setBackgroundColor(Color.GREEN);
         scrollView.setFillViewport(true);
-        main.addView(scrollView);
+        scrollView.requestDisallowInterceptTouchEvent(true);
+        frameLayout.addView(scrollView);
 
         LinearLayout container = new LinearLayout(this);
-        container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        container.setBackgroundColor(Color.RED);
-        scrollView.addView(container);
+//        scrollView.addView(container);
+
+        gameView = new GameView(this);
+//        gameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        gameView.setZOrderOnTop(true);
+//        gameView.getHolder().setFixedSize(AppConstants.SCREEN_HEIGHT/4*3, AppConstants.SCREEN_WIDTH);
+//        gameView.getHolder().setSizeFromLayout();
+        scrollView.addView(gameView);
 
         LinearLayout bottom = new LinearLayout(this);
         bottom.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 3));
@@ -58,6 +74,7 @@ public class GameActivity extends AppCompatActivity {
 //        bottom.setWeightSum(2);
         bottom.setBackgroundColor(Color.WHITE);
         bottom.getBackground().setAlpha(100);
+        bottom.bringToFront();
         main.addView(bottom);
 
         LinearLayout spinners = new LinearLayout(this);
@@ -249,10 +266,6 @@ public class GameActivity extends AppCompatActivity {
         button.setTextColor(Color.WHITE);
         bottom.addView(button);
 
-        gameView = new GameView(this);
-        gameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        gameView.setZOrderOnTop(true);
-        container.addView(gameView);
 
         setContentView(main);
     }
