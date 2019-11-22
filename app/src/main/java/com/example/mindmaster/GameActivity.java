@@ -1,6 +1,7 @@
 package com.example.mindmaster;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,9 +22,15 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class GameActivity extends AppCompatActivity {
 
-    GameView gameView;
+    private GameView gameView;
+    private Spinner first, second, third, fourth;
+    private ArrayList<Integer> random;
+    private int attempt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,16 @@ public class GameActivity extends AppCompatActivity {
         AppConstants.gameActivityContext = this;
 //        gameView = new GameView(this);
 //        setContentView(gameView);
+
+        random = new ArrayList<>();
+        Random r = new Random();
+        for(int i = 0; i < 4; i++){
+            int x = r.nextInt(12);
+            while(random.contains(x))
+                x = r.nextInt(12);
+            random.add(x);
+        }
+        attempt = 0;
 
         LinearLayout main = new LinearLayout(this);
         main.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -87,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
                 new Integer[]{R.drawable.core, R.drawable.acads, R.drawable.hrd, R.drawable.rnd, R.drawable.tnd, R.drawable.corpo,
                         R.drawable.publications, R.drawable.pubs, R.drawable.univrel, R.drawable.socio, R.drawable.docu, R.drawable.finance});
 
-        final Spinner first = new Spinner(this);
+        first = new Spinner(this);
         first.setAdapter(adapter);
         first.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         first.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
@@ -130,7 +148,7 @@ public class GameActivity extends AppCompatActivity {
         });
         spinners.addView(first);
 
-        final Spinner second = new Spinner(this);
+        second = new Spinner(this);
         second.setAdapter(adapter);
         second.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         second.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
@@ -173,7 +191,7 @@ public class GameActivity extends AppCompatActivity {
         });
         spinners.addView(second);
 
-        final Spinner third = new Spinner(this);
+        third = new Spinner(this);
         third.setAdapter(adapter);
         third.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         third.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
@@ -216,7 +234,7 @@ public class GameActivity extends AppCompatActivity {
         });
         spinners.addView(third);
 
-        final Spinner fourth = new Spinner(this);
+        fourth = new Spinner(this);
         fourth.setAdapter(adapter);
         fourth.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         fourth.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
@@ -259,22 +277,65 @@ public class GameActivity extends AppCompatActivity {
         });
         spinners.addView(fourth);
 
-        Button button = new Button(this);
+        final ImageButton button = new ImageButton(this);
         button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        button.setText("CHECK");
-        button.setBackgroundColor(Color.BLUE);
-        button.setTextColor(Color.WHITE);
+//        button.setText("CHECK");
+//        button.setBackgroundColor(Color.BLUE);
+//        button.setTextColor(Color.WHITE);
+        button.setBackgroundResource(R.drawable.checkbutton);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                check(button);
+            }
+        });
         bottom.addView(button);
 
 
         setContentView(main);
+    }
+
+    public void check(View v){
+        ArrayList<Boolean> flag = new ArrayList<>();
+        ArrayList<Integer> guess = new ArrayList<>();
+        int correct = 0, wp = 0;
+
+        attempt++;
+        guess.add(first.getSelectedItemPosition());
+        guess.add(second.getSelectedItemPosition());
+        guess.add(third.getSelectedItemPosition());
+        guess.add(fourth.getSelectedItemPosition());
+        for(int i = 0; i < 4; i++){
+            flag.add(guess.get(i) == random.get(i));
+        }
+        for(int slot = 0; slot < 4; slot++){
+            if(guess.get(slot) == random.get(slot))
+                correct++;
+            else
+                for(int s = 0; s < 4; s++)
+                    if(!flag.get(s) && guess.get(slot) == random.get(s)){
+                        wp++;
+                        flag.set(s, true);
+                        break;
+                    }
+        }
+        if(correct == 4){
+            Intent intent = new Intent(this, GameOver.class);
+            intent.putExtra("score", attempt);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            gameView.drawCode(correct, wp, guess);
+        }
     }
 }
 
 class SimpleImageArrayAdapter extends ArrayAdapter<Integer> {
     private Integer[] images;
 
-    public SimpleImageArrayAdapter(Context context, Integer[] images) {
+    public SimpleImageArrayAdapter(Context context, Integer[] images){
         super(context, android.R.layout.simple_spinner_item, images);
         this.images = images;
     }

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -19,6 +20,8 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class GameView extends SurfaceView implements View.OnTouchListener, SurfaceHolder.Callback{
 
     private SurfaceHolder surfaceHolder = null;
@@ -28,6 +31,12 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
     private float circleX = 0;
 
     private float circleY = 0;
+
+    private int height = 0;
+
+    Bitmap mDrawBitmap;
+    Canvas mBitmapCanvas;
+    Paint mDrawPaint = new Paint();
 
 
 
@@ -57,7 +66,7 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 //        this.setBackgroundResource(R.drawable.background);
 
         // Set current surfaceview at top of the view tree.
-//        this.setZOrderOnTop(true);
+        this.setZOrderOnTop(true);
         this.setZOrderMediaOverlay(true);
 
         this.getHolder().setFormat(PixelFormat.TRANSPARENT);
@@ -91,13 +100,13 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Canvas canvas = surfaceHolder.lockCanvas();
+//        Canvas canvas = surfaceHolder.lockCanvas();
 //        canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
 //        drawBack(canvas);
-        drawRect(canvas);
-        drawIcons(canvas);
+//        drawRect(canvas);
+//        drawIcons(canvas);
 
-        surfaceHolder.unlockCanvasAndPost(canvas);
+//        surfaceHolder.unlockCanvasAndPost(canvas);
 
     }
 
@@ -132,10 +141,10 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
         myPaint.setStrokeWidth(10);
         myPaint.setAlpha(100);
 
+        canvas.drawRect(0,0, AppConstants.SCREEN_WIDTH/2, AppConstants.SCREEN_HEIGHT/2, myPaint);
+
 //        canvas.drawRect(0, Resources.getSystem().getDisplayMetrics().heightPixels - (AppConstants.SCREEN_WIDTH/4*3) - 80,
 //                Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, myPaint);
-
-        canvas.drawRect(0,0, AppConstants.SCREEN_WIDTH/2, AppConstants.SCREEN_HEIGHT/2, myPaint);
 
 //        Bitmap rect = BitmapFactory.decodeResource(getResources(), R.drawable.background);
 //        float scale = (float)background.getHeight()/(float)getHeight();
@@ -248,6 +257,102 @@ public class GameView extends SurfaceView implements View.OnTouchListener, Surfa
 
        // System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().widthPixels);
       //  System.out.println("HELLO "+ Resources.getSystem().getDisplayMetrics().heightPixels);
+    }
+
+    public void drawCode(int correct, int wp, ArrayList<Integer> guess){
+//        Canvas canvas = surfaceHolder.lockCanvas();
+//        surfaceHolder.unlockCanvasAndPost(canvas);
+//
+        Canvas canvas = surfaceHolder.lockCanvas();
+
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+        if (mDrawBitmap == null) {
+            mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            mBitmapCanvas = new Canvas(mDrawBitmap);
+        }
+
+        Paint myPaint = new Paint();
+        myPaint.setColor(Color.WHITE);
+        myPaint.setStyle(Paint.Style.FILL);
+        myPaint.setStrokeWidth(10);
+        myPaint.setAlpha(200);
+
+        mBitmapCanvas.drawRect(0,height, AppConstants.SCREEN_WIDTH, height + AppConstants.SCREEN_WIDTH/4 + 20 + 100 + 10 + 100 + 30, myPaint);
+
+        int pic = 0;
+        for(int i = 0; i < 4; i++){
+            switch (guess.get(i)){
+                case 0: pic = R.drawable.core;
+                    break;
+                case 1: pic = R.drawable.acads;
+                    break;
+                case 2: pic = R.drawable.hrd;
+                    break;
+                case 3: pic = R.drawable.rnd;
+                    break;
+                case 4: pic = R.drawable.tnd;
+                    break;
+                case 5: pic = R.drawable.corpo;
+                    break;
+                case 6: pic = R.drawable.publications;
+                    break;
+                case 7: pic = R.drawable.pubs;
+                    break;
+                case 8: pic = R.drawable.univrel;
+                    break;
+                case 9: pic = R.drawable.socio;
+                    break;
+                case 10: pic = R.drawable.docu;
+                    break;
+                case 11: pic = R.drawable.finance;
+                    break;
+            }
+
+            Bitmap bmap = BitmapFactory.decodeResource(getResources(), pic);
+            bmap = scaleIt(bmap);
+
+            switch (i){
+                case 0: mBitmapCanvas.drawBitmap(bmap, 0, height, null);
+                    break;
+                case 1: mBitmapCanvas.drawBitmap(bmap, bmap.getWidth(), height, null);
+                    break;
+                case 2: mBitmapCanvas.drawBitmap(bmap, bmap.getWidth()*2, height, null);
+                    break;
+                case 3: mBitmapCanvas.drawBitmap(bmap, bmap.getWidth()*3, height, null);
+                    break;
+            }
+        }
+
+        height += (AppConstants.SCREEN_WIDTH/4 + 20);
+
+        Paint scorePaint = new Paint();
+        scorePaint.setColor(Color.WHITE);
+        scorePaint.setTextSize(100);
+        scorePaint.setTextAlign(Paint.Align.CENTER);
+        mBitmapCanvas.drawText("Correct Answer: " + correct, AppConstants.SCREEN_WIDTH/2, height + 100, scorePaint);
+        height += (100 + 10);
+        mBitmapCanvas.drawText("Wrong Position: " + wp, AppConstants.SCREEN_WIDTH/2, height + 100, scorePaint);
+        height += (100 + 40);
+
+//        Rect r = new Rect();
+//        String text1 = "Correct Answer: " + correct;
+//        String text2 = "Wrong Position: " + wp;
+//        canvas.getClipBounds(r);
+//        int cHeight = r.height();
+//        int cWidth = r.width();
+//        paint.setTextAlign(Paint.Align.LEFT);
+//        paint.getTextBounds(text1, 0, text2.length(), r);
+//        float x = cWidth / 2f - r.width() / 2f - r.left;
+//        float y = cHeight / 2f + r.height() / 2f - r.bottom;
+//        canvas.drawText(text, x, y, paint);
+
+        // draw everything to the screen
+        canvas.drawBitmap(mDrawBitmap, 0, 0, mDrawPaint);
+
+
+        surfaceHolder.unlockCanvasAndPost(canvas);
+        invalidate();
     }
 
 
