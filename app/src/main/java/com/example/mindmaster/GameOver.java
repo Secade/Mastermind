@@ -20,7 +20,7 @@ public class GameOver extends AppCompatActivity {
         getSupportActionBar().hide();
         int score = getIntent().getExtras().getInt("score");
         SharedPreferences pref = getSharedPreferences("MyPref",0);
-        int scoreSP = pref.getInt("scoreSP",0);
+        int scoreSP = pref.getInt("scoreSP",9999);
         SharedPreferences.Editor editor = pref.edit();
         if(score < scoreSP){
             scoreSP = score;

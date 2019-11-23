@@ -7,24 +7,17 @@ import android.view.WindowManager;
 
 public class AppConstants {
 
-    static BitmapBank bitmapBank; // Bitmap object re ference
     static int SCREEN_WIDTH, SCREEN_HEIGHT;
     static int numberOfCommittees;
     static Context gameActivityContext;
 
     public static void initialization(Context context){
         setScreenSize(context);
-        bitmapBank = new BitmapBank(context.getResources());
         setGameConstants();
     }
 
     public static void setGameConstants(){
         AppConstants.numberOfCommittees = 12;
-    }
-
-    // Return BitmapBank instance
-    public static BitmapBank getBitmapBank(){
-        return bitmapBank;
     }
 
     private static void setScreenSize(Context context){

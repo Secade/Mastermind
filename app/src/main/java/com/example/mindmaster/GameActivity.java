@@ -43,8 +43,6 @@ public class GameActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         AppConstants.gameActivityContext = this;
-//        gameView = new GameView(this);
-//        setContentView(gameView);
 
         random = new ArrayList<>();
         Random r = new Random();
@@ -71,27 +69,19 @@ public class GameActivity extends AppCompatActivity {
 
         scrollView = new ScrollView(this);
         scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        scrollView.setBackgroundColor(Color.GREEN);
         scrollView.setFillViewport(true);
         scrollView.requestDisallowInterceptTouchEvent(true);
         frameLayout.addView(scrollView);
 
         LinearLayout container = new LinearLayout(this);
         container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//        container.setBackgroundColor(Color.RED);
-//        scrollView.addView(container);
 
         gameView = new GameView(this);
-//        gameView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//        gameView.setZOrderOnTop(true);
-//        gameView.getHolder().setFixedSize(AppConstants.SCREEN_HEIGHT/4*3, AppConstants.SCREEN_WIDTH);
-//        gameView.getHolder().setSizeFromLayout();
         scrollView.addView(gameView);
 
         LinearLayout bottom = new LinearLayout(this);
         bottom.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 3));
         bottom.setOrientation(LinearLayout.VERTICAL);
-//        bottom.setWeightSum(2);
         bottom.setBackgroundColor(Color.WHITE);
         bottom.getBackground().setAlpha(100);
         bottom.bringToFront();
@@ -111,7 +101,6 @@ public class GameActivity extends AppCompatActivity {
         first.setAdapter(adapter);
         first.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         first.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
-//        first.setBackgroundResource(R.drawable.core);
         first.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -154,7 +143,6 @@ public class GameActivity extends AppCompatActivity {
         second.setAdapter(adapter);
         second.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         second.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
-//        second.setBackgroundResource(R.drawable.core);
         second.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -197,7 +185,6 @@ public class GameActivity extends AppCompatActivity {
         third.setAdapter(adapter);
         third.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         third.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
-//        third.setBackgroundResource(R.drawable.core);
         third.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -240,7 +227,6 @@ public class GameActivity extends AppCompatActivity {
         fourth.setAdapter(adapter);
         fourth.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
         fourth.setDropDownWidth(AppConstants.SCREEN_WIDTH/4);
-//        fourth.setBackgroundResource(R.drawable.core);
         fourth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -281,9 +267,6 @@ public class GameActivity extends AppCompatActivity {
 
         final ImageButton button = new ImageButton(this);
         button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//        button.setText("CHECK");
-//        button.setBackgroundColor(Color.BLUE);
-//        button.setTextColor(Color.WHITE);
         button.setBackgroundResource(R.drawable.checkbutton);
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -293,7 +276,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         bottom.addView(button);
-
 
         setContentView(main);
     }
@@ -330,10 +312,8 @@ public class GameActivity extends AppCompatActivity {
         }
         else{
             if(gameView.getMyHeight() >= 8100 || gameView.getMyHeight() == 0){
-//                scrollView.smoothScrollTo(0,0);
                 ObjectAnimator.ofInt(scrollView, "scrollY",  0).setDuration(500).start();
             } else {
-//                scrollView.smoothScrollTo(0, gameView.getMyHeight());
                 ObjectAnimator.ofInt(scrollView, "scrollY",  gameView.getMyHeight()).setDuration(500).start();
             }
             gameView.drawCode(correct, wp, guess);
@@ -357,13 +337,10 @@ class SimpleImageArrayAdapter extends ArrayAdapter<Integer> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getImageForPosition(position);
-//        return new ImageView(getContext());
     }
 
     private View getImageForPosition(int position) {
         ImageView imageView = new ImageView(getContext());
-//        imageView.setBackgroundResource(images[position]);
-//        imageView.setBackground(null);
         imageView.setLayoutParams(new AbsListView.LayoutParams(AppConstants.SCREEN_WIDTH/4, AppConstants.SCREEN_WIDTH/4));
         return imageView;
     }
